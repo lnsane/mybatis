@@ -1,19 +1,23 @@
 /**
- *    Copyright 2009-2020 the original author or authors.
- *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
- *
- *       http://www.apache.org/licenses/LICENSE-2.0
- *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
+ * Copyright 2009-2020 the original author or authors.
+ * <p>
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.apache.ibatis.io;
+
+import org.apache.ibatis.logging.Log;
+import org.apache.ibatis.logging.LogFactory;
+import org.apache.ibatis.mapping.ResultMap;
 
 import java.io.File;
 import java.io.IOException;
@@ -31,7 +35,7 @@ import java.util.Properties;
  * @author Clinton Begin
  */
 public class Resources {
-
+  private static final Log log = LogFactory.getLog(Resources.class);
   private static ClassLoaderWrapper classLoaderWrapper = new ClassLoaderWrapper();
 
   /**
@@ -91,24 +95,30 @@ public class Resources {
 
   /**
    * Returns a resource on the classpath as a Stream object
+   * <p>
+   * 把资源文件以inputSteam 对象 的形式返回
    *
-   * @param resource The resource to find
-   * @return The resource
-   * @throws java.io.IOException If the resource cannot be found or read
+   * @param resource The resource to find 资源名带后缀
+   * @return The resource 返回InputSteam流的形式
+   * @throws java.io.IOException If the resource cannot be found or read  如果没有找到相关的文件会IOException异常
    */
   public static InputStream getResourceAsStream(String resource) throws IOException {
+    log.debug("进入  getResourceAsStream(String resource) 静态方法");
+    log.debug("这个  getResourceAsStream(String resource) 方法是一个重载方法");
     return getResourceAsStream(null, resource);
   }
 
   /**
    * Returns a resource on the classpath as a Stream object
+   * 把资源文件以inputSteam 对象 的形式返回
    *
-   * @param loader   The classloader used to fetch the resource
-   * @param resource The resource to find
-   * @return The resource
-   * @throws java.io.IOException If the resource cannot be found or read
+   * @param loader   The classloader used to fetch the resource // TODO 暂时不知道这个参数作用
+   * @param resource The resource to find 资源名带后缀
+   * @return The resource 返回InputSteam流的形式
+   * @throws java.io.IOException If the resource cannot be found or read 如果没有找到相关的文件会IOException异常
    */
   public static InputStream getResourceAsStream(ClassLoader loader, String resource) throws IOException {
+    log.debug("进入 “getResourceAsStream(ClassLoader loader, String resource)” 方法");
     InputStream in = classLoaderWrapper.getResourceAsStream(resource, loader);
     if (in == null) {
       throw new IOException("Could not find resource " + resource);

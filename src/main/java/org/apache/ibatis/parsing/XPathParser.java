@@ -1,17 +1,17 @@
 /**
- *    Copyright 2009-2019 the original author or authors.
- *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
- *
- *       http://www.apache.org/licenses/LICENSE-2.0
- *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
+ * Copyright 2009-2019 the original author or authors.
+ * <p>
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.apache.ibatis.parsing;
 
@@ -122,9 +122,22 @@ public class XPathParser {
     this.document = createDocument(new InputSource(reader));
   }
 
+  /**
+   * 这是一个xpath 的解析器 就是html里面爬虫的下path的东西
+   *
+   * @param inputStream
+   * @param validation
+   * @param variables
+   * @param entityResolver
+   */
   public XPathParser(InputStream inputStream, boolean validation, Properties variables, EntityResolver entityResolver) {
+    // 公共的构造器
     commonConstructor(validation, variables, entityResolver);
+
+    // 也是xml 的东西把 inputSteam 转换成 InputSource对象
+    // 累了 累了 这些还不如看 DOM4J 实现呢。。。
     this.document = createDocument(new InputSource(inputStream));
+    // 这一步完了 xml 就被解析成 Docment 对象了
   }
 
   public XPathParser(Document document, boolean validation, Properties variables, EntityResolver entityResolver) {
@@ -227,9 +240,18 @@ public class XPathParser {
     }
   }
 
+  /**
+   * 这个方法好像是创建一个xml Document 对象 就是把 输入流 转成xml 对象
+   * 说真的用一个  DOM4J 我就不用看的那么麻烦了
+   *
+   * @param inputSource
+   * @return
+   */
   private Document createDocument(InputSource inputSource) {
     // important: this must only be called AFTER common constructor
     try {
+      // 用了java自带的xml解析器解析
+      // 先创建一个对象
       DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
       factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
       factory.setValidating(validation);
@@ -245,11 +267,13 @@ public class XPathParser {
       builder.setErrorHandler(new ErrorHandler() {
         @Override
         public void error(SAXParseException exception) throws SAXException {
+          // 这里解析错误不提示下友好信息吗？ 。。。
           throw exception;
         }
 
         @Override
         public void fatalError(SAXParseException exception) throws SAXException {
+          // 这里解析错误不提示下友好信息吗？ 。。。
           throw exception;
         }
 
@@ -258,6 +282,7 @@ public class XPathParser {
           // NOP
         }
       });
+      // 主要就是这个了调用解析方法解析 inputSource 流
       return builder.parse(inputSource);
     } catch (Exception e) {
       throw new BuilderException("Error creating document instance.  Cause: " + e, e);

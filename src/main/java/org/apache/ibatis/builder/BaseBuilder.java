@@ -36,9 +36,11 @@ public abstract class BaseBuilder {
   protected final TypeAliasRegistry typeAliasRegistry;
   protected final TypeHandlerRegistry typeHandlerRegistry;
 
+  // 被小弟 XMLConfigBuilder 调用 以及多个小弟调用
   public BaseBuilder(Configuration configuration) {
     this.configuration = configuration;
     this.typeAliasRegistry = this.configuration.getTypeAliasRegistry();
+    // 妈的有注册一堆东西~~~~
     this.typeHandlerRegistry = this.configuration.getTypeHandlerRegistry();
   }
 

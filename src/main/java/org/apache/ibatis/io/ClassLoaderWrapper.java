@@ -1,17 +1,17 @@
 /**
- *    Copyright 2009-2020 the original author or authors.
- *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
- *
- *       http://www.apache.org/licenses/LICENSE-2.0
- *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
+ * Copyright 2009-2020 the original author or authors.
+ * <p>
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.apache.ibatis.io;
 
@@ -48,6 +48,7 @@ public class ClassLoaderWrapper {
 
   /**
    * Get a resource from the classpath, starting with a specific class loader
+   * 根据指定的类加载器 加载 URL 文件
    *
    * @param resource    - the resource to find
    * @param classLoader - the first classloader to try
@@ -69,12 +70,17 @@ public class ClassLoaderWrapper {
 
   /**
    * Get a resource from the classpath, starting with a specific class loader
+   * 根据指定的类加载器 加载 这个resource下的 文件
    *
    * @param resource    - the resource to find
    * @param classLoader - the first class loader to try
-   * @return the stream or null
+   * @return the stream or null 返回 InputSteam 对象 或者 null
    */
   public InputStream getResourceAsStream(String resource, ClassLoader classLoader) {
+    /**
+     * getResourceAsStream(String resource, ClassLoader[] classLoader)
+     * 是一个很重要的方法
+     */
     return getResourceAsStream(resource, getClassLoaders(classLoader));
   }
 
@@ -113,10 +119,13 @@ public class ClassLoaderWrapper {
       if (null != cl) {
 
         // try to find the resource as passed
+        // 尝试找到文件并以 inputSteam 对象
         InputStream returnValue = cl.getResourceAsStream(resource);
 
         // now, some class loaders want this leading "/", so we'll add it and try again if we didn't find the resource
+        // 如果没有找到加一个“/" 已经找一遍
         if (null == returnValue) {
+          // 这里有一个bug linux 是 “/”  windows 是 "\"
           returnValue = cl.getResourceAsStream("/" + resource);
         }
 
@@ -197,13 +206,23 @@ public class ClassLoaderWrapper {
 
   }
 
+  // TODO 一堆数据的加载类
   ClassLoader[] getClassLoaders(ClassLoader classLoader) {
     return new ClassLoader[]{
-        classLoader,
-        defaultClassLoader,
-        Thread.currentThread().getContextClassLoader(),
-        getClass().getClassLoader(),
-        systemClassLoader};
+      // 我们自己传入的类加载器 默认是一个null
+      classLoader,
+      // 默认加载器应该是个null
+      defaultClassLoader,
+      /**
+       * 关于Thread.currentThread().getContextClassLoader() 和 getClass().getClassLoader() 区别
+       * see https://www.cnblogs.com/gaoxing/p/4703412.html
+      */
+      Thread.currentThread().getContextClassLoader(),
+      getClass().getClassLoader(),
+
+      // 对象构造的时候创建的 ClassLoader.getSystemClassLoader();
+      systemClassLoader};
+    //调试三个方法都相等在tomcat中可能不同
   }
 
 }
