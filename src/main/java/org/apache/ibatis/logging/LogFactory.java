@@ -18,6 +18,9 @@ package org.apache.ibatis.logging;
 import java.lang.reflect.Constructor;
 
 /**
+ *
+ * 被final 修饰的类是不能被继承的
+ *
  * @author Clinton Begin
  * @author Eduardo Macarron
  */
@@ -30,6 +33,19 @@ public final class LogFactory {
 
   private static Constructor<? extends Log> logConstructor;
 
+  /**
+   *  静态代码块先执行
+   *  一个文件代码块执行的顺序
+   *   1. 静态代码块
+   *   2. 静态变量
+   *   3. 静态方法
+   *   4. 类代码块
+   *   5. 类变量
+   *   6. 构造函数
+   *   也就是说在静态代码块的代码会先执行
+   *   无论里面是什么代码
+   *   默认会选择Slf4j日志记录
+   */
   static {
     tryImplementation(LogFactory::useSlf4jLogging);
     tryImplementation(LogFactory::useCommonsLogging);
@@ -54,6 +70,10 @@ public final class LogFactory {
       throw new LogException("Error creating logger for logger " + logger + ".  Cause: " + t, t);
     }
   }
+
+  /**
+   * 加重量级锁的原因是反正多限制获取不同的日志面板
+   */
 
   public static synchronized void useCustomLogging(Class<? extends Log> clazz) {
     setImplementation(clazz);
@@ -104,6 +124,9 @@ public final class LogFactory {
       if (log.isDebugEnabled()) {
         log.debug("Logging initialized using '" + implClass + "' adapter.");
       }
+      /**
+       * 获取日志之后赋值给 logConstructor
+       */
       logConstructor = candidate;
     } catch (Throwable t) {
       throw new LogException("Error setting Log implementation.  Cause: " + t, t);

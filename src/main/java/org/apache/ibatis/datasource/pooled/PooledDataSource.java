@@ -326,6 +326,8 @@ public class PooledDataSource implements DataSource {
 
   /**
    * Closes all active and idle connections in the pool.
+   * 闭池中的所有活动和空闲连接。
+   *
    */
   public void forceCloseAll() {
     synchronized (state) {

@@ -29,6 +29,8 @@ import org.apache.ibatis.scripting.defaults.RawSqlSource;
 import org.apache.ibatis.session.Configuration;
 
 /**
+ * xml Sql 解析器
+ * ps 感觉很牛逼的样子呀
  * @author Eduardo Macarron
  */
 public class XMLLanguageDriver implements LanguageDriver {

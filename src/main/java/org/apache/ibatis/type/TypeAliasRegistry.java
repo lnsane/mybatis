@@ -155,6 +155,7 @@ public class TypeAliasRegistry {
     }
     // issue #748
     // 只转英文几个意思？ 不对默认传进来也是英文~
+    // 学习到了 Locale.ENGLISH 是国际化的标准
     String key = alias.toLowerCase(Locale.ENGLISH);
     if (typeAliases.containsKey(key) && typeAliases.get(key) != null && !typeAliases.get(key).equals(value)) {
       throw new TypeException("The alias '" + alias + "' is already mapped to the value '" + typeAliases.get(key).getName() + "'.");
