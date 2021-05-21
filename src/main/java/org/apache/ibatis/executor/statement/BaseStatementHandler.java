@@ -98,8 +98,20 @@ public abstract class BaseStatementHandler implements StatementHandler {
     }
   }
 
+  /**
+   * 实例化JDBC对象
+   * @param connection
+   * @return
+   * @throws SQLException
+   */
   protected abstract Statement instantiateStatement(Connection connection) throws SQLException;
 
+  /**
+   * 创建一个JDBC对象
+   * @param stmt
+   * @param transactionTimeout
+   * @throws SQLException
+   */
   protected void setStatementTimeout(Statement stmt, Integer transactionTimeout) throws SQLException {
     Integer queryTimeout = null;
     if (mappedStatement.getTimeout() != null) {

@@ -43,9 +43,11 @@ public class RawSqlSource implements SqlSource {
   public RawSqlSource(Configuration configuration, String sql, Class<?> parameterType) {
     SqlSourceBuilder sqlSourceParser = new SqlSourceBuilder(configuration);
     Class<?> clazz = parameterType == null ? Object.class : parameterType;
+    // 解析SQL 并 生成可执行的SQL
     sqlSource = sqlSourceParser.parse(sql, clazz, new HashMap<>());
   }
 
+  // 格式化SQL
   private static String getSql(Configuration configuration, SqlNode rootSqlNode) {
     DynamicContext context = new DynamicContext(configuration, null);
     rootSqlNode.apply(context);

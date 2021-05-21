@@ -28,6 +28,8 @@ import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.transaction.Transaction;
 
 /**
+ *
+ * 解析成可执行的SQL接口
  * @author Clinton Begin
  */
 public interface Executor {

@@ -40,7 +40,8 @@ public interface LanguageDriver {
   /**
    * Creates an {@link SqlSource} that will hold the statement read from a mapper xml file.
    * It is called during startup, when the mapped statement is read from a class or an xml file.
-   *
+   * 创建一个{@link SqlSource}，它将保存从映射器xml文件读取的语句。从类或xml文件中读取映射的语句时，在启动过程中调用它。
+   * 简单的说就是生成原始的SQL
    * @param configuration The MyBatis configuration
    * @param script XNode parsed from a XML file
    * @param parameterType input parameter type got from a mapper method or specified in the parameterType xml attribute. Can be null.

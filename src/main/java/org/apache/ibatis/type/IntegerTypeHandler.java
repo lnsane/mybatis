@@ -21,6 +21,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
+ * 设置SQL中的参数，设置后变可执行
  * @author Clinton Begin
  */
 public class IntegerTypeHandler extends BaseTypeHandler<Integer> {
