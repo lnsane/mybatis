@@ -7,15 +7,19 @@
         <setting name="lazyLoadingEnabled" value="true"/>
         <!-- <setting name="aggressiveLazyLoading" value="false"/> -->
     </settings>
+  <plugins>
+    <plugin interceptor="com.Interceptor.MybatisInterceptor">
+    </plugin>
+  </plugins>
     <!-- 定义数据库的信息，默认使用development数据库构建环境 -->
     <environments default="development">
         <environment id="development">
             <transactionManager type="JDBC"/>
             <dataSource type="POOLED">
                 <property name="driver" value="com.mysql.cj.jdbc.Driver"/>
-                <property name="url" value="jdbc:mysql://localhost:3306/mybatis"/>
+                <property name="url" value="jdbc:mysql://192.168.5.200:3306/test"/>
                 <property name="username" value="root"/>
-                <property name="password" value="123456"/>
+                <property name="password" value="123456abc"/>
             </dataSource>
         </environment>
     </environments>

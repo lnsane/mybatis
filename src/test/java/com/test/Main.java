@@ -9,6 +9,7 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 /**
  * @author 王存露
@@ -26,8 +27,9 @@ public class Main {
     user.setUser("1");
     user.setId(1);
     UserMapper mapper = sqlSession.getMapper(UserMapper.class);
-    UserModel user1 = mapper.selectByPrimaryKey(2);
-    System.out.println(user1.toString());
+//    UserModel user1 = mapper.selectByPrimaryKey(2);
+    List<UserModel> userModels = mapper.selectByIdAndUser(1, "2");
+    System.out.println(userModels);
     sqlSession.commit();
     sqlSession.close();
   }
