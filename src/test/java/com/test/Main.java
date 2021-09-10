@@ -28,7 +28,7 @@ public class Main {
     user.setId(1);
     UserMapper mapper = sqlSession.getMapper(UserMapper.class);
 //    UserModel user1 = mapper.selectByPrimaryKey(2);
-    List<UserModel> userModels = mapper.selectByIdAndUser(1, "2");
+    List<UserModel> userModels = mapper.selectByIdAndUser(1, "2ssss");
     System.out.println(userModels);
     sqlSession.commit();
     sqlSession.close();
