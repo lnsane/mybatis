@@ -109,6 +109,9 @@ public class ClassLoaderWrapper {
 
   /**
    * Try to get a resource from a group of classloaders
+   * 这个方法主要是通过类加载组，加载xml文件的
+   * 如果返回null表示没有找到你说的这个xml
+   * 你要把xml文件放在resource文件夹中才能被找到的
    *
    * @param resource    - the resource to get
    * @param classLoader - the classloaders to examine
@@ -207,6 +210,12 @@ public class ClassLoaderWrapper {
   }
 
   // TODO 一堆数据的加载类
+
+  /**
+   * 传进来是一个null的
+   * @param classLoader
+   * @return
+   */
   ClassLoader[] getClassLoaders(ClassLoader classLoader) {
     return new ClassLoader[]{
       // 我们自己传入的类加载器 默认是一个null
